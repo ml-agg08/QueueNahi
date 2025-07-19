@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chef Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #fff8f0;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            text-align: center;
+        }
+        h2, h3 {
+            color: #ff6600;
+        }
+        .btn {
+            background-color: #ff6600;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-green {
+            background-color: #28a745;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            text-align: left;
+        }
+        .table th, .table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        .table th {
+            background-color: #ffe0cc;
+        }
+        .completed-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 10px;
+        }
+        .completed-list li {
+            margin-bottom: 6px;
+            text-align: left;
+        }
+        .section {
+            margin-top: 40px;
+        }
+        .logout-link {
+            margin-top: 30px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Welcome, Chef {{ request.user.username }} 👨‍🍳</h2>
+
+    <!-- Add Menu Button -->
+    <form action="{% url 'add_menu_item' %}" method="get" style="margin-top: 20px;">
+        <button type="submit" class="btn">➕ Add Menu Item</button>
+    </form>
+
+    <!-- Pending Orders -->
+    <div class="section">
+        <h3>Pending Orders</h3>
+
+        {% if pending_orders %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Customer Name</th>
+                        <th>Admission No</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in pending_orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.menu_item.name }}</td>
+                        <td>{{ order.quantity }}</td>
+                        <td>₹{{ order.menu_item.price }}</td>
+                        <td>{{ order.student.userprofile.full_name }}</td>
+                        <td>{{ order.student.userprofile.admission_number }}</td>
+                        <td>{{ order.status }}</td>
+                        <td>
+                            <a href="{% url 'mark_order_completed' order.id %}" class="btn btn-green">✅ Mark as Completed</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="color: #666;">No pending orders.</p>
+        {% endif %}
+    </div>
+
+    <!-- Completed Orders -->
+    <div class="section">
+        <h3>Completed Orders</h3>
+
+        {% if completed_orders %}
+            <ul class="completed-list">
+                {% for order in completed_orders %}
+                <li>
+                    ✅ Order #{{ order.id }} — {{ order.menu_item.name }} × {{ order.quantity }} (₹{{ order.menu_item.price }})
+                    for {{ order.student.userprofile.full_name }} ({{ order.student.userprofile.admission_number }})
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color: #666;">No completed orders yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- Logout -->
+    <div class="logout-link">
+        <a href="{% url 'logout' %}" class="btn">🔒 Logout</a>
+    </div>
+
+</div>
+
+</body>
+</html>

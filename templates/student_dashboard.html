@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #fff8f0; color: #333; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh;">
+
+    <div style="text-align: center; padding: 30px; background-color: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+
+        <h2 style="color: #fc8019;">Welcome, {{ request.user.username }} 👋</h2>
+
+        <form action="{% url 'menu' %}">
+            <button type="submit" style="
+                display: inline-block;
+                padding: 10px 20px;
+                font-size: 16px;
+                background-color: #fc8019;
+                color: white;
+                text-align: center;
+                text-decoration: none;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 10px;
+            ">🍽️ View Menu & Order</button>
+        </form>
+
+        <h3 style="color: #fc8019; margin-top: 30px;">Your Orders</h3>
+
+        <a href="{% url 'my_orders' %}" style="color: #fc8019; text-decoration: none; font-weight: bold;">
+            ➡️ See your current orders
+        </a>
+
+        <br><br>
+
+        <a href="{% url 'logout' %}" style="color: #999; text-decoration: none;">🔒 Logout</a>
+
+    </div>
+
+</body>
+</html>

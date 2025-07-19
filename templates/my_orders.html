@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Orders</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #fff8f0; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh;">
+
+    <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 500px;">
+
+        <h2 style="color: #fc8019;">🧾 My Orders</h2>
+
+        <ul style="list-style-type: none; padding: 0; text-align: left;">
+            {% for order in orders %}
+                <li style="padding: 10px; margin-bottom: 8px; border-bottom: 1px solid #eee;">
+                    <strong>{{ order.menu_item.name }}</strong> × {{ order.quantity }}
+                    <br>
+                    <span style="color: #666;">Status: {{ order.status }}</span>
+                </li>
+            {% empty %}
+                <li style="padding: 10px; color: #999;">No orders yet.</li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'student_dashboard' %}" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #fc8019; color: white; border: none; border-radius: 5px; text-decoration: none;">
+            ⬅️ Back to Dashboard
+        </a>
+
+    </div>
+
+</body>
+</html>

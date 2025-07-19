@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #fff8f0; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+
+    <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1); width: 90%; max-width: 600px;">
+
+        {% if messages %}
+        <script>
+            {% for message in messages %}
+                alert("{{ message|escapejs }}");
+            {% endfor %}
+        </script>
+        {% endif %}
+
+        <h2 style="color: #fc8019; text-align: center;">🍽️ Chandrettante Menu</h2>
+
+        <div style="margin-bottom: 20px; background-color: #fff3e6; padding: 15px; border-radius: 8px; color: #333;">
+            <p><strong>Kitchen Capacity:</strong> {{ capacity.max_capacity }}</p>
+            <p><strong>Used:</strong> {{ capacity.used_capacity }}</p>
+            <p><strong>Remaining:</strong> {{ capacity.max_capacity }} - {{ capacity.used_capacity }} = <strong>{{ capacity.available_capacity }}</strong></p>
+        </div>
+
+        {% for item in menu_items %}
+        <form method="post" style="margin-bottom: 25px; padding: 15px; background-color: #fdf3e7; border-radius: 8px;">
+            {% csrf_token %}
+            <p style="font-size: 16px;"><strong>{{ item.name }}</strong> — ₹{{ item.price }}</p>
+            <input type="hidden" name="item_id" value="{{ item.id }}">
+
+            <label for="quantity" style="margin-right: 10px;">Quantity:</label>
+            <input type="number" name="quantity" min="1" value="1" required style="width: 60px; padding: 4px;">
+
+            <button type="submit" style="background-color: #fc8019; color: white; border: none; padding: 6px 14px; border-radius: 5px; cursor: pointer; margin-left: 10px;">
+                Order
+            </button>
+        </form>
+        {% endfor %}
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'student_dashboard' %}" style="color: #fc8019; text-decoration: none; font-weight: bold;">⬅️ Back to Dashboard</a>
+        </div>
+
+    </div>
+</body>
+</html>
